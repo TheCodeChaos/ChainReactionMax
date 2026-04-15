@@ -26,8 +26,6 @@ const relevantHeadings = headings.filter(heading => heading.depth <= 3);
 
 <style>
   .toc {
-    position: sticky;
-    top: calc(var(--nav-height) + 1.5rem);
     padding: 0.8rem;
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-md);
@@ -65,9 +63,4 @@ const relevantHeadings = headings.filter(heading => heading.depth <= 3);
     color: var(--text);
   }
 
-  @media (max-width: 1040px) {
-    .toc {
-      position: static;
-    }
-  }
 </style>

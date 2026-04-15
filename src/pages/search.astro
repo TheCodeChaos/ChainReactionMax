@@ -6,7 +6,11 @@ import SiteHeader from '../components/SiteHeader.astro';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Search" description="Pagefind-powered search across the Chain Reaction MAX website.">
+<Layout
+  title="Search"
+  description="Pagefind-powered search across the Chain Reaction MAX website."
+  seo={{ noindex: true }}
+>
   <SiteHeader />
 
   <div class="page-shell">

@@ -8,6 +8,7 @@ import BackToTop from '../components/BackToTop.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import AuthorBadge from '../components/AuthorBadge.astro';
 import TableOfContents from '../components/TableOfContents.astro';
+import { authors as authorDirectory } from '../data/site';
 
 type Props = CollectionEntry<'blog'>['data'] & {
   headings?: MarkdownHeading[];
@@ -15,9 +16,23 @@ type Props = CollectionEntry<'blog'>['data'] & {
 
 const { title, description, pubDate, updatedDate, authors, tags, headings = [] } =
   Astro.props;
+
+const authorNames = authors.map(
+  authorId => authorDirectory[authorId as keyof typeof authorDirectory]?.name ?? authorId
+);
 ---
 
-<Layout title={title} description={description}>
+<Layout
+  title={title}
+  description={description}
+  seo={{
+    type: 'article',
+    publishedTime: pubDate.toISOString(),
+    modifiedTime: (updatedDate ?? pubDate).toISOString(),
+    authors: authorNames,
+    tags,
+  }}
+>
   <SiteHeader />
   <div class="page-shell">
     <main class="container article-shell" data-pagefind-body>
@@ -99,14 +114,16 @@ const { title, description, pubDate, updatedDate, authors, tags, headings = [] }
 
   @media (min-width: 1040px) {
     .article-layout {
-      grid-template-columns: 280px minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) 280px;
       align-items: start;
     }
     .toc-wrap {
-      order: 1;
+      order: 2;
+      position: sticky;
+      top: calc(var(--nav-height) + 1.5rem);
     }
     .article-prose {
-      order: 2;
+      order: 1;
     }
   }
 
@@ -116,6 +133,8 @@ const { title, description, pubDate, updatedDate, authors, tags, headings = [] }
     }
     .toc-wrap {
       order: 1;
+      position: static;
+      top: auto;
     }
     .article-prose {
       order: 2;
