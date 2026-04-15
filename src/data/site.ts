@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: 'CR MAX',
   tagline: 'Fast rounds. Big reversals. Pure chain-reaction chaos.',
   description:
-    'Chain Reaction MAX is a multiplayer strategy game for 2 to 6 players with local battles, LAN rooms, multiple board sizes, and dramatic chain bursts.',
+    'Chain Reaction MAX is a multiplayer strategy game for 2 to 6 players with multiple board sizes, and dramatic chain bursts.',
   siteUrl: 'https://chainreactionmax.pages.dev',
   repoUrl: 'https://github.com/Ayaan-7091/Chain-Reaction-MAX',
   issuesUrl: 'https://github.com/Ayaan-7091/Chain-Reaction-MAX/issues',
@@ -21,7 +21,6 @@ export const navLinks = [
 
 export const quickFacts = [
   { label: 'Players', value: '2-6' },
-  { label: 'Modes', value: 'Local + LAN' },
   { label: 'Boards', value: '6x5 to 12x8' },
   { label: 'Style', value: 'Quick or tactical' },
 ] as const;
@@ -33,9 +32,9 @@ export const featureCards = [
       'Corners pop at two atoms, edges at three, and center cells at four. That shifting critical mass keeps the board readable and tense.',
   },
   {
-    title: 'Play around one screen or across a room',
+    title: 'Play around one screen',
     description:
-      'Spin up a local game instantly, or host and discover LAN matches over the same network without a central server.',
+      'Spin up a game instantly and pass the device between players.',
   },
   {
     title: 'Built for dramatic reversals',
@@ -68,83 +67,45 @@ export const boardPresets = [
 ] as const;
 
 export const supportChecklist = [
-  'Confirm which mode you were using: local game, host network game, or join network game.',
   'Note the board size and player count that reproduced the issue.',
-  'Share whether the problem happened during an explosion replay, a live turn, or lobby discovery.',
+  'Share whether the problem happened during an explosion replay, a live turn, or match start.',
   'Include screenshots or a short screen recording when the bug is visual.',
 ] as const;
 
-export const faqGroups = [
+export const faqItems = [
   {
-    title: 'Gameplay',
-    items: [
-      {
-        question: 'How does a chain reaction start?',
-        body: [
-          'Each cell has a critical limit based on its position. Corners burst at 2 atoms, edges burst at 3, and center cells burst at 4.',
-          'When a cell explodes, it sends atoms into adjacent cells and converts them to the active player, which can trigger more bursts immediately.',
-        ],
-      },
-      {
-        question: 'How many players can join a match?',
-        body: [
-          'Chain Reaction MAX currently supports 2 to 6 players.',
-          'You can set the player count before launching a local or LAN match from the home screen.',
-        ],
-      },
-      {
-        question: 'What board sizes are available?',
-        body: [
-          'The app ships with three presets: 6 x 5, 9 x 6, and 12 x 8.',
-          'Those presets let you tune the game for fast rounds, balanced sessions, or long tactical battles.',
-        ],
-      },
-      {
-        question: 'Can I replay the last blast sequence?',
-        body: [
-          'Yes. After a move causes explosions, the replay control can step through the recorded chain reaction.',
-          'That is helpful both for learning the game and settling table arguments about what just happened.',
-        ],
-      },
+    question: 'How does a chain reaction start?',
+    body: [
+      'Corners burst at 2 atoms, edges at 3, and center cells at 4; when a cell bursts, atoms spread to adjacent cells and can trigger immediate cascades.',
     ],
   },
   {
-    title: 'Multiplayer',
-    items: [
-      {
-        question: 'Does the game support internet matchmaking?',
-        body: [
-          'Not yet. Multiplayer today is local-first: players can share one device or use LAN discovery on the same network.',
-          'That keeps setup lightweight and avoids relying on a remote backend.',
-        ],
-      },
-      {
-        question: 'How does LAN play work?',
-        body: [
-          'One player hosts, the app advertises the room on the local network, and nearby devices can discover and join it.',
-          'When enough players connect, the host sends the game-start payload with the selected grid and player count.',
-        ],
-      },
-    ],
+    question: 'How many players can join a match?',
+    body: ['Chain Reaction MAX supports 2 to 6 players.'],
   },
   {
-    title: 'Platform and Privacy',
-    items: [
-      {
-        question: 'Which platforms are targeted by the app?',
-        body: [
-          'The Flutter project includes Android, iOS, web, macOS, Linux, and Windows targets.',
-          'That makes the game a good fit for quick experiments now and broader release packaging later.',
-        ],
-      },
-      {
-        question: 'Does Chain Reaction MAX collect analytics or cloud data?',
-        body: [
-          'The current codebase is local-first and does not ship a cloud backend or analytics SDK.',
-          'LAN messages stay on the same network, and normal matches run entirely on-device.',
-        ],
-      },
-    ],
+    question: 'What board sizes are available?',
+    body: ['The current presets are 6 x 5, 9 x 6, and 12 x 8.'],
+  },
+  {
+    question: 'Can I replay the last blast sequence?',
+    body: ['Yes, the replay control can step through the most recent explosion chain.'],
+  },
+  {
+    question: 'When is a player eliminated?',
+    body: ['A player is eliminated once their atoms are fully cleared from the board after turns are in progress.'],
+  },
+  {
+    question: 'Do captured cells switch owner during explosions?',
+    body: ['Yes, captured atoms immediately flip to the active player while the chain is resolving.'],
+  },
+  {
+    question: 'Which preset is best for beginners?',
+    body: ['6 x 5 is the easiest starting point because turns resolve quickly and pressure is easier to read.'],
+  },
+  {
+    question: 'Where should I report bugs?',
+    body: ['Use the GitHub Issues link from the Support page and include board size, player count, and reproduction steps.'],
   },
 ] as const;
 
@@ -153,10 +114,6 @@ export const developers = [
     id: 'ayaan',
     name: 'Ayaan Shaikh',
     initials: 'AS',
-    role: 'Lead Developer',
-    summary:
-      'Owns the current repo direction and shipped the main Flutter gameplay, lobby setup, and presentation layer.',
-    focus: ['Core game loop', 'LAN play flow', 'Release direction'],
     links: {
       github: 'https://github.com/Ayaan-7091',
     },
@@ -165,10 +122,6 @@ export const developers = [
     id: 'shravan',
     name: 'Shravan Goswami',
     initials: 'SG',
-    role: 'Contributor',
-    summary:
-      'Contributed early implementation work and helped shape the project foundation reflected in the commit history.',
-    focus: ['Project bootstrap', 'Gameplay iteration', 'Product polish'],
     links: {
       github: 'https://github.com/shravanngoswamii',
       website: 'https://shravangoswami.com/',
@@ -187,8 +140,8 @@ export const credits = [
     items: [
       'Flutter for cross-platform delivery',
       'Riverpod for state management',
-      'Bonsoir for local network discovery',
-      'shelf_web_socket and web_socket_channel for room communication',
+      'Bonsoir for multiplayer session discovery',
+      'shelf_web_socket and web_socket_channel for real-time session communication',
     ],
   },
   {
@@ -204,7 +157,7 @@ export const credits = [
     title: 'Design Notes',
     items: [
       'Brand colors and the orbital motif are adapted from the in-app logo and dark neon game screens.',
-      'Support and documentation flow are intentionally local-first to match the product philosophy.',
+      'Support and documentation flow are intentionally tuned for quick scans and practical troubleshooting.',
     ],
   },
 ] as const;

@@ -4,57 +4,30 @@ interface FAQItem {
   body: readonly string[];
 }
 
-interface FAQGroup {
-  title: string;
+interface Props {
   items: readonly FAQItem[];
 }
 
-interface Props {
-  groups: readonly FAQGroup[];
-}
-
-const { groups } = Astro.props;
+const { items } = Astro.props;
 ---
 
-<div class="faq-groups">
+<div class="faq-list" data-reveal>
   {
-    groups.map(group => (
-      <section class="faq-group" data-reveal>
-        <div class="faq-group-header">
-          <span class="eyebrow">{group.title}</span>
-        </div>
-        <div class="faq-items">
-          {group.items.map(item => (
-            <details class="faq-item">
-              <summary>{item.question}</summary>
-              <div class="faq-answer">
-                {item.body.map(paragraph => (
-                  <p>{paragraph}</p>
-                ))}
-              </div>
-            </details>
+    items.map(item => (
+      <details class="faq-item">
+        <summary>{item.question}</summary>
+        <div class="faq-answer">
+          {item.body.map(paragraph => (
+            <p>{paragraph}</p>
           ))}
         </div>
-      </section>
+      </details>
     ))
   }
 </div>
 
 <style>
-  .faq-groups {
-    display: grid;
-    gap: 2.2rem;
-  }
-
-  .faq-group {
-    position: relative;
-  }
-
-  .faq-group-header {
-    margin-bottom: 0.9rem;
-  }
-
-  .faq-items {
+  .faq-list {
     display: grid;
     gap: 0;
   }

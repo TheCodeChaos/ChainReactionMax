@@ -4,7 +4,7 @@ import FAQList from '../components/FAQList.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Layout from '../layouts/Layout.astro';
-import { faqGroups } from '../data/site';
+import { faqItems } from '../data/site';
 ---
 
 <Layout title="FAQ" description="Frequently asked questions about Chain Reaction MAX.">
@@ -17,18 +17,17 @@ import { faqGroups } from '../data/site';
         <h1 class="page-title">Rules, rooms, and match logic.</h1>
         <p class="lede">
           Everything here maps to the current codebase and app flow, from critical-cell rules to
-          LAN host discovery behavior.
+          replay behavior.
         </p>
 
         <div class="faq-strip" aria-label="FAQ summary">
-          <span><strong>{faqGroups.length}</strong> topic groups</span>
-          <span><strong>{faqGroups.reduce((count, group) => count + group.items.length, 0)}</strong> total answers</span>
-          <span><strong>0 fluff</strong> direct, implementation-grounded replies</span>
+          <span><strong>{faqItems.length}</strong> total answers</span>
+          <span><strong>0 fluff</strong> sentences</span>
         </div>
       </section>
 
       <section class="section faq-body" data-reveal>
-        <FAQList groups={faqGroups} />
+        <FAQList items={faqItems} />
       </section>
     </main>
   </div>

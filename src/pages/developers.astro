@@ -16,7 +16,7 @@ import { developers } from '../data/site';
         <span class="eyebrow">Meet the devs</span>
         <h1 class="page-title">The people shaping each release.</h1>
         <p class="lede">
-          A lean contributor lineup with clear ownership over gameplay, LAN flow, and product polish.
+          Two builders, one shared direction, and a release rhythm focused on game feel.
         </p>
       </section>
 
@@ -24,18 +24,15 @@ import { developers } from '../data/site';
         {
           developers.map((dev, index) => {
             const website = 'website' in dev.links ? dev.links.website : undefined;
+            const githubHandle = dev.links.github?.split('/').filter(Boolean).pop();
             return (
               <article class="dev-card" data-reveal style={`--card-index:${index};`}>
                 <div class="dev-core">
                   <span class="dev-initials">{dev.initials}</span>
                   <div>
-                    <p class="dev-role">{dev.role}</p>
                     <h2>{dev.name}</h2>
+                    {githubHandle && <p class="dev-handle">@{githubHandle}</p>}
                   </div>
-                </div>
-                <p>{dev.summary}</p>
-                <div class="focus-row">
-                  {dev.focus.map(item => <span>{item}</span>)}
                 </div>
                 <div class="dev-links">
                   {dev.links.github && (
@@ -74,9 +71,12 @@ import { developers } from '../data/site';
 
   .dev-card {
     position: relative;
+    display: grid;
+    align-content: space-between;
+    min-height: 220px;
     border: 1px solid var(--line-soft);
     border-radius: var(--radius-lg);
-    padding: 1.15rem;
+    padding: 1.18rem;
     background:
       radial-gradient(circle at calc(82% - var(--card-index) * 14%), 25%, rgba(62, 194, 255, 0.14), transparent 36%),
       var(--bg-panel);
@@ -104,10 +104,18 @@ import { developers } from '../data/site';
   }
 
   .dev-card h2 {
-    margin: 0.12rem 0 0;
+    margin: 0;
     font-family: 'Fraunces', 'Outfit', serif;
     font-size: 1.52rem;
     line-height: 1.06;
+  }
+
+  .dev-handle {
+    margin: 0.3rem 0 0;
+    color: var(--text-soft);
+    font-size: 0.84rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
   }
 
   .dev-card p {
@@ -115,35 +123,13 @@ import { developers } from '../data/site';
     color: var(--text-muted);
   }
 
-  .dev-role {
-    color: var(--text-soft) !important;
-    font-size: 0.8rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  .focus-row {
-    margin-top: 0.95rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.45rem;
-  }
-
-  .focus-row span {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.22rem 0.58rem;
-    border-radius: 999px;
-    border: 1px solid var(--line-soft);
-    color: var(--text-soft);
-    font-size: 0.8rem;
-  }
-
   .dev-links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.85rem;
-    margin-top: 0.95rem;
+    margin-top: 1.25rem;
+    padding-top: 0.82rem;
+    border-top: 1px solid var(--line-soft);
   }
 
   .dev-links a {

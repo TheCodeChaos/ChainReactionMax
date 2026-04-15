@@ -12,16 +12,16 @@ import Layout from '../layouts/Layout.astro';
     <main class="container privacy-page" data-pagefind-body>
       <section class="section legal-panel" data-reveal>
         <span class="eyebrow">Privacy</span>
-        <h1 class="page-title">Local-first by design.</h1>
+        <h1 class="page-title">Privacy notes, straight to the point.</h1>
         <p class="lede">
           Chain Reaction MAX does not currently rely on a remote backend or third-party analytics layer.
-          The Flutter codebase focuses on local gameplay and same-network matchmaking.
+          Core match state runs on-device.
         </p>
 
         <div class="privacy-strip" aria-label="Privacy summary">
           <span><strong>No analytics SDK</strong></span>
           <span><strong>No hosted search API</strong></span>
-          <span><strong>LAN traffic only for matches</strong></span>
+          <span><strong>No account required for play</strong></span>
         </div>
 
         <div class="legal-copy section-tight">
@@ -29,54 +29,43 @@ import Layout from '../layouts/Layout.astro';
             <span>01</span>
             <div>
               <h2>Data collection</h2>
-            <p>
-              The current app code does not indicate a remote analytics SDK, ad SDK, or hosted account
-              service. Normal matches run on-device.
-            </p>
+              <p>
+                The current app code does not indicate a remote analytics SDK, ad SDK, or hosted
+                account service. Matches run on-device.
+              </p>
             </div>
           </article>
 
           <article class="policy-row">
             <span>02</span>
             <div>
-              <h2>LAN play</h2>
-            <p>
-              Host and join messages are exchanged over the same local network to discover rooms and start
-              matches. That traffic is gameplay, not telemetry.
-            </p>
+              <h2>Website search</h2>
+              <p>
+                This website uses Pagefind, which builds a static index during build time. Search runs
+                in the browser and does not depend on a hosted search API.
+              </p>
             </div>
           </article>
 
           <article class="policy-row">
             <span>03</span>
             <div>
-              <h2>Website search</h2>
-            <p>
-              This website uses Pagefind, which builds a static index during build time. Search runs in the
-              browser and does not depend on a hosted search API.
-            </p>
+              <h2>Repository workflows</h2>
+              <p>
+                Opening issues or tracking releases happens on GitHub, and those actions follow
+                GitHub's own privacy policies.
+              </p>
             </div>
           </article>
 
           <article class="policy-row">
             <span>04</span>
             <div>
-              <h2>Repository workflows</h2>
-            <p>
-              Opening issues or tracking releases happens on GitHub, and those actions follow GitHub's own
-              privacy policies.
-            </p>
-            </div>
-          </article>
-
-          <article class="policy-row">
-            <span>05</span>
-            <div>
               <h2>Changes</h2>
-            <p>
-              If future versions add cloud sync, remote multiplayer, or telemetry, this page should be
-              updated before those features are announced as active.
-            </p>
+              <p>
+                If future versions add cloud sync or telemetry, this page should be updated before
+                those features are announced as active.
+              </p>
             </div>
           </article>
         </div>

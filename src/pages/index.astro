@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { ArrowRight, Search } from '@lucide/astro';
+import { ArrowRight } from '@lucide/astro';
 import BackToTop from '../components/BackToTop.astro';
 import AuthorBadge from '../components/AuthorBadge.astro';
 import FormattedDate from '../components/FormattedDate.astro';
@@ -9,7 +9,7 @@ import SiteHeader from '../components/SiteHeader.astro';
 import Layout from '../layouts/Layout.astro';
 import {
   boardPresets,
-  faqGroups,
+  faqItems,
   featureCards,
   quickFacts,
   siteConfig,
@@ -43,9 +43,6 @@ const posts = (await getCollection('blog'))
             <a class="button-secondary" href={`${import.meta.env.BASE_URL}/blog`.replace(/\/\//g, '/')}>
               Strategy blog
             </a>
-            <button class="button-ghost" type="button" data-open-search>
-              <Search size={18} /> Search
-            </button>
           </div>
 
           <div class="fact-ribbon" aria-label="Quick facts">
@@ -166,7 +163,7 @@ const posts = (await getCollection('blog'))
 
           <article class="weave-block">
             <h3>FAQ answers</h3>
-            <p>{faqGroups.reduce((count, group) => count + group.items.length, 0)} practical answers about rules, modes, and behavior.</p>
+            <p>{faqItems.length} practical answers about rules and gameplay behavior.</p>
             <a href={`${import.meta.env.BASE_URL}/faq`.replace(/\/\//g, '/')}>Open FAQ <ArrowRight size={15} /></a>
           </article>
         </div>
@@ -193,6 +190,7 @@ const posts = (await getCollection('blog'))
 
   .hero-stage {
     display: grid;
+    order: -1;
     gap: 1.5rem;
     align-items: center;
   }
@@ -469,6 +467,18 @@ const posts = (await getCollection('blog'))
   @media (min-width: 980px) {
     .hero-stage {
       grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+  }
+
+  @media (max-width: 979px) {
+    .hero-stage {
+      grid-template-areas: "orbit" "copy";
+    }
+    .hero-copy {
+      grid-area: copy;
+    }
+    .hero-orbit {
+      grid-area: orbit;
     }
   }
 
