@@ -2,11 +2,11 @@
 import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
-const base = process.env.PR_PREVIEW_BASE_URL || '/';
+const base = process.env.BASE_PATH || '/';
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE || 'https://chainreactionmax.pages.dev',
+  site: process.env.SITE || 'https://TheCodeChaos.github.io/ChainReactionMax/',
   base,
   integrations: [sitemap()],
   image: {

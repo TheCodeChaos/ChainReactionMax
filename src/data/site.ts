@@ -4,10 +4,10 @@ export const siteConfig = {
   tagline: 'Fast rounds. Big reversals. Pure chain-reaction chaos.',
   description:
     'Chain Reaction MAX is a multiplayer strategy game for 2 to 6 players with multiple board sizes, and dramatic chain bursts.',
-  siteUrl: 'https://chainreactionmax.pages.dev',
-  repoUrl: 'https://github.com/Ayaan-7091/Chain-Reaction-MAX',
-  issuesUrl: 'https://github.com/Ayaan-7091/Chain-Reaction-MAX/issues',
-  releasesUrl: 'https://github.com/Ayaan-7091/Chain-Reaction-MAX/releases',
+  siteUrl: 'https://TheCodeChaos.github.io/ChainReactionMax/',
+  repoUrl: 'https://github.com/TheCodeChaos/ChainReactionMax',
+  issuesUrl: 'https://github.com/TheCodeChaos/ChainReactionMax/issues',
+  releasesUrl: 'https://github.com/TheCodeChaos/ChainReactionMax/releases',
   searchHint: 'Ctrl+K',
 } as const;
 

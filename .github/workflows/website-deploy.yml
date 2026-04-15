@@ -3,14 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'src/**'
-      - 'public/**'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'astro.config.mjs'
-      - 'tsconfig.json'
-      - '.github/workflows/website-deploy.yml'
   workflow_dispatch:
 
 permissions:
@@ -36,7 +28,8 @@ jobs:
       - name: Build with Astro
         run: npm run build
         env:
-          SITE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          SITE: https://TheCodeChaos.github.io/ChainReactionMax/
+          BASE_PATH: /ChainReactionMax/
 
       - name: Add .nojekyll file
         run: touch ./dist/.nojekyll

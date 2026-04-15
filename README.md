@@ -24,5 +24,5 @@ npm run preview
 ## Notes
 
 - Production site URL is controlled by `SITE` (defaults in Astro config).
-- PR preview builds use `PR_PREVIEW_BASE_URL`.
+- Build base path is controlled by `BASE_PATH`.
 - GitHub Pages deployment is handled by workflows in `.github/workflows/`.
