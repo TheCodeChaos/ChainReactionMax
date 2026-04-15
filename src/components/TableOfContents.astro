@@ -1,0 +1,73 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+const relevantHeadings = headings.filter(heading => heading.depth <= 3);
+---
+
+{
+  relevantHeadings.length > 0 && (
+    <aside class="toc" data-pagefind-ignore>
+      <p class="toc-heading">On this page</p>
+      <ul>
+        {relevantHeadings.map(heading => (
+          <li class={`depth-${heading.depth}`}>
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  )
+}
+
+<style>
+  .toc {
+    position: sticky;
+    top: calc(var(--nav-height) + 1.5rem);
+    padding: 0.8rem;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+    background: var(--bg-panel);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .toc-heading {
+    margin: 0 0 0.8rem;
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .toc ul {
+    display: grid;
+    gap: 0.42rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .toc li.depth-3 {
+    padding-left: 0.7rem;
+  }
+
+  .toc a {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .toc a:hover {
+    color: var(--text);
+  }
+
+  @media (max-width: 1040px) {
+    .toc {
+      position: static;
+    }
+  }
+</style>

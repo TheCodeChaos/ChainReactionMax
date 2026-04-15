@@ -1,0 +1,195 @@
+---
+import BackToTop from '../components/BackToTop.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Layout from '../layouts/Layout.astro';
+import { boardPresets, featureCards, siteConfig } from '../data/site';
+---
+
+<Layout title="About" description="The story and product direction behind Chain Reaction MAX.">
+  <SiteHeader />
+
+  <div class="page-shell">
+    <main class="container about-page" data-pagefind-body>
+      <section class="section about-hero" data-reveal>
+        <span class="eyebrow">About the app</span>
+        <h1 class="page-title">
+          Designed to make every
+          <span class="gradient-text">chain reaction readable.</span>
+        </h1>
+        <p class="lede">
+          Chain Reaction MAX takes the classic chain-reaction board formula and packages it with a
+          cleaner interface, configurable arenas, smooth room flow, and replay-friendly feedback.
+        </p>
+      </section>
+
+      <section class="section manifesto" data-reveal>
+        <article class="manifesto-item">
+          <h2 class="section-title">Why it exists</h2>
+          <p>
+            The goal is straightforward: make a chaotic multiplayer game feel polished enough to replay.
+            The app opens into player and grid setup so sessions begin quickly instead of forcing menu loops.
+          </p>
+        </article>
+        <article class="manifesto-item">
+          <h2 class="section-title">What already ships</h2>
+          <p>
+            The repository includes turn logic, elimination handling, explosion replay, and room discovery.
+            This site reflects shipped behavior rather than placeholder promises.
+          </p>
+        </article>
+        <article class="manifesto-item">
+          <h2 class="section-title">How it should feel</h2>
+          <p>
+            Match readability matters more than visual noise. The UI is intentionally compact so players can
+            focus on timing, pressure, and board control.
+          </p>
+        </article>
+      </section>
+
+      <section class="section pillars" data-reveal>
+        <span class="eyebrow">Core pillars</span>
+        <div class="pillars-grid section-tight">
+          {
+            featureCards.map((feature, index) => (
+              <article class="pillar" style={`--pillar-index:${index};`}>
+                <p class="pillar-index">0{index + 1}</p>
+                <div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section presets" data-reveal>
+        <span class="eyebrow">Board pacing</span>
+        <div class="preset-ring section-tight">
+          {
+            boardPresets.map(preset => (
+              <article class="preset-card">
+                <p class="preset-size">{preset.size}</p>
+                <div>
+                  <h3>{preset.name}</h3>
+                  <p>{preset.summary}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <BackToTop />
+  <SiteFooter />
+</Layout>
+
+<style>
+  .about-page {
+    display: grid;
+    gap: 0;
+  }
+
+  .manifesto {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .manifesto-item {
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    background: color-mix(in srgb, var(--panel) 82%, transparent);
+  }
+
+  .manifesto-item p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .pillars-grid {
+    display: grid;
+    gap: 0.85rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pillar {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 0.9rem;
+  }
+
+  .pillar-index {
+    margin: 0;
+    color: var(--text-soft);
+    font-size: 0.76rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 0.35rem;
+  }
+
+  .pillar h3,
+  .preset-card h3 {
+    margin: 0 0 0.35rem;
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: 1.28rem;
+  }
+
+  .pillar p,
+  .preset-card p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .preset-ring {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .preset-card {
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    background:
+      radial-gradient(circle at 80% 24%, rgba(62, 194, 255, 0.14), transparent 38%),
+      color-mix(in srgb, var(--panel) 84%, transparent);
+  }
+
+  .preset-size {
+    margin: 0 0 0.35rem;
+    color: var(--text-soft);
+    font-size: 0.76rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+  }
+
+  @media (min-width: 980px) {
+    .manifesto {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 980px) {
+    .pillars-grid,
+    .preset-ring {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .pillar {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .pillar-index {
+      padding-top: 0;
+    }
+  }
+</style>

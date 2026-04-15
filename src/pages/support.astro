@@ -1,0 +1,291 @@
+---
+import { ArrowRight, Bug, LifeBuoy, Rocket, Search } from '@lucide/astro';
+import BackToTop from '../components/BackToTop.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Layout from '../layouts/Layout.astro';
+import { siteConfig, supportChecklist } from '../data/site';
+---
+
+<Layout title="Support" description="Support paths and issue reporting for Chain Reaction MAX.">
+  <SiteHeader />
+
+  <div class="page-shell">
+    <main class="container support-page" data-pagefind-body>
+      <section class="section support-hero" data-reveal>
+        <span class="eyebrow">Support</span>
+        <h1 class="page-title">Need help with a match, room, or app issue?</h1>
+        <p class="lede">
+          Start from the right support route so you get answers faster and avoid duplicate bug reports.
+        </p>
+
+        <div class="support-kpis" aria-label="Support overview">
+          <span><strong>Step 1:</strong> Check answers</span>
+          <span><strong>Step 2:</strong> Search quickly</span>
+          <span><strong>Step 3:</strong> Report with details</span>
+        </div>
+      </section>
+
+      <section class="section support-flow" data-reveal>
+        <div class="flow-head">
+          <span class="eyebrow">Choose a route</span>
+          <h2 class="section-title">One place, four clear actions.</h2>
+        </div>
+
+        <div class="flow-list section-tight">
+          <a class="flow-row" href={`${import.meta.env.BASE_URL}/faq`.replace(/\/\//g, '/')}>
+            <p class="row-label"><LifeBuoy size={16} /> FAQ</p>
+            <div>
+              <h3>Read quick answers first</h3>
+              <p>Rules, lobby behavior, and common confusion points are documented here.</p>
+            </div>
+            <span class="row-cta">Open FAQ <ArrowRight size={16} /></span>
+          </a>
+
+          <button class="flow-row flow-row-button" type="button" data-open-search>
+            <p class="row-label"><Search size={16} /> Search</p>
+            <div>
+              <h3>Search the site instantly</h3>
+              <p>Use the in-page search modal to find exact terms in docs, FAQ, and blog posts.</p>
+            </div>
+            <span class="row-cta">Open search <ArrowRight size={16} /></span>
+          </button>
+
+          <a class="flow-row" href={siteConfig.issuesUrl} target="_blank" rel="noreferrer">
+            <p class="row-label"><Bug size={16} /> Issues</p>
+            <div>
+              <h3>Report a reproducible bug</h3>
+              <p>Use this for gameplay bugs, replay mismatches, UI glitches, and room connection failures.</p>
+            </div>
+            <span class="row-cta">Go to issues <ArrowRight size={16} /></span>
+          </a>
+
+          <a class="flow-row" href={siteConfig.releasesUrl} target="_blank" rel="noreferrer">
+            <p class="row-label"><Rocket size={16} /> Releases</p>
+            <div>
+              <h3>Track what is fixed and shipped</h3>
+              <p>Follow release notes to know when a reported issue is included in a public update.</p>
+            </div>
+            <span class="row-cta">View releases <ArrowRight size={16} /></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section support-guide" data-reveal>
+        <div class="guide-head">
+          <span class="eyebrow">Before reporting</span>
+          <h2 class="section-title">Share details that make debugging fast.</h2>
+        </div>
+        <ol class="guide-steps section-tight">
+          {
+            supportChecklist.map((item, index) => (
+              <li>
+                <span>0{index + 1}</span>
+                <p>{item}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="section support-quick" data-reveal>
+        <p>
+          Press <strong>Ctrl+K</strong> any time to open search.
+        </p>
+        <button type="button" class="button-ghost" data-open-search>
+          Open search modal
+        </button>
+      </section>
+    </main>
+  </div>
+
+  <BackToTop />
+  <SiteFooter />
+</Layout>
+
+<style>
+  .support-page {
+    display: grid;
+    gap: 0;
+  }
+
+  .support-hero {
+    display: grid;
+    gap: 0.95rem;
+  }
+
+  .support-kpis {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .support-kpis span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    padding: 0.26rem 0.7rem;
+    color: var(--text-soft);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    background: color-mix(in srgb, var(--panel) 82%, transparent);
+  }
+
+  .support-kpis strong,
+  .support-quick strong {
+    color: var(--text);
+    font-weight: 550;
+  }
+
+  .support-flow,
+  .support-guide {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .flow-head,
+  .guide-head {
+    display: grid;
+    gap: 0.48rem;
+  }
+
+  .flow-list {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .flow-row {
+    display: grid;
+    grid-template-columns: minmax(130px, 170px) 1fr auto;
+    align-items: start;
+    gap: 0.9rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line-soft);
+    color: inherit;
+    text-align: left;
+    background: transparent;
+    font: inherit;
+    border-left: 0;
+    border-right: 0;
+    border-top-width: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--line-soft);
+  }
+
+  .flow-row-button {
+    cursor: pointer;
+  }
+
+  .flow-row:hover {
+    color: var(--text);
+  }
+
+  .row-label {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text-soft);
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-top: 0.34rem;
+  }
+
+  .flow-row h3 {
+    margin: 0 0 0.35rem;
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: 1.34rem;
+    line-height: 1.08;
+  }
+
+  .flow-row p,
+  .guide-steps p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .row-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.36rem;
+    color: var(--text);
+    font-size: 0.9rem;
+    font-weight: 550;
+    padding-top: 0.26rem;
+  }
+
+  .guide-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  .guide-steps li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 0.8rem;
+  }
+
+  .guide-steps span {
+    color: var(--text-soft);
+    font-size: 0.75rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    padding-top: 0.35rem;
+  }
+
+  .support-quick {
+    border-top: 1px solid var(--line-soft);
+    padding-top: 1.2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+  }
+
+  .support-quick p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .flow-row {
+      grid-template-columns: 1fr;
+      gap: 0.52rem;
+    }
+
+    .row-label,
+    .row-cta {
+      padding-top: 0;
+    }
+  }
+
+  @media (max-width: 740px) {
+    .guide-steps li {
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+    }
+
+    .guide-steps span {
+      padding-top: 0;
+    }
+
+    .support-quick {
+      align-items: stretch;
+    }
+
+    .support-quick .button-ghost {
+      width: fit-content;
+    }
+  }
+</style>

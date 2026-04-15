@@ -1,0 +1,120 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import Layout from './Layout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import BackToTop from '../components/BackToTop.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import AuthorBadge from '../components/AuthorBadge.astro';
+import TableOfContents from '../components/TableOfContents.astro';
+
+type Props = CollectionEntry<'blog'>['data'] & {
+  headings?: MarkdownHeading[];
+};
+
+const { title, description, pubDate, updatedDate, authors, tags, headings = [] } =
+  Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <SiteHeader />
+  <div class="page-shell">
+    <main class="container article-shell" data-pagefind-body>
+      <article class="section article-hero" data-reveal>
+        <div class="article-hero-inner">
+          <div class="tag-row">
+            {tags.map(tag => <span class="tag">{tag}</span>)}
+          </div>
+          <h1 class="page-title">{title}</h1>
+          <p class="lede">{description}</p>
+          <div class="meta-row">
+            <span>
+              Published <FormattedDate date={pubDate} />
+            </span>
+            {
+              updatedDate && (
+                <span>
+                  Updated <FormattedDate date={updatedDate} />
+                </span>
+              )
+            }
+          </div>
+          <div class="tag-row">
+            {authors.map(authorId => <AuthorBadge authorId={authorId as 'ayaan' | 'shravan'} />)}
+          </div>
+        </div>
+      </article>
+
+      <div class="section article-layout" data-reveal>
+        <div class="article-toc">
+          <TableOfContents headings={headings} />
+        </div>
+        <div class="article-prose">
+          <slot />
+        </div>
+      </div>
+    </main>
+  </div>
+  <BackToTop />
+  <SiteFooter />
+</Layout>
+
+<style>
+  .article-shell {
+    display: grid;
+    gap: 0;
+  }
+
+  .article-hero {
+    padding: 1.2rem;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(circle at 84% 24%, rgba(255, 124, 57, 0.14), transparent 35%),
+      var(--bg-panel);
+  }
+
+  .article-hero-inner {
+    width: min(100%, 760px);
+    margin-inline: auto;
+    display: grid;
+    gap: 0.82rem;
+  }
+
+  .article-layout {
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .article-toc {
+    order: -1;
+  }
+
+  .article-prose {
+    width: min(100%, 760px);
+    margin-inline: auto;
+    min-width: 0;
+  }
+
+  @media (min-width: 1040px) {
+    .article-layout {
+      grid-template-columns: minmax(0, 1fr) 280px;
+      align-items: start;
+    }
+
+    .article-prose {
+      order: 1;
+    }
+
+    .article-toc {
+      order: 2;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .article-hero {
+      padding: 0.95rem;
+    }
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+import { GitBranch, Globe } from '@lucide/astro';
+import BackToTop from '../components/BackToTop.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Layout from '../layouts/Layout.astro';
+import { developers } from '../data/site';
+---
+
+<Layout title="Developers" description="Meet the people behind Chain Reaction MAX.">
+  <SiteHeader />
+
+  <div class="page-shell">
+    <main class="container dev-page" data-pagefind-body>
+      <section class="section dev-hero" data-reveal>
+        <span class="eyebrow">Meet the devs</span>
+        <h1 class="page-title">The people shaping each release.</h1>
+        <p class="lede">
+          The duo behind Chain Reaction MAX and its evolving game experience.
+        </p>
+      </section>
+
+      <section class="section-tight dev-showcase">
+        {
+          developers.map((dev, index) => {
+            const website = 'website' in dev.links ? dev.links.website : undefined;
+            return (
+              <article class="dev-card" data-reveal style={`--card-index:${index};`}>
+                <div class="dev-core">
+                  <span class="dev-initials">{dev.initials}</span>
+                  <h2>{dev.name}</h2>
+                </div>
+                <div class="dev-links">
+                  {dev.links.github && (
+                    <a href={dev.links.github} target="_blank" rel="noreferrer">
+                      <GitBranch size={16} /> GitHub
+                    </a>
+                  )}
+                  {website && (
+                    <a href={website} target="_blank" rel="noreferrer">
+                      <Globe size={16} /> Website
+                    </a>
+                  )}
+                </div>
+              </article>
+            );
+          })
+        }
+      </section>
+    </main>
+  </div>
+
+  <BackToTop />
+  <SiteFooter />
+</Layout>
+
+<style>
+  .dev-page {
+    display: grid;
+    gap: 0;
+  }
+
+  .dev-showcase {
+    display: grid;
+    gap: 0.95rem;
+  }
+
+  .dev-card {
+    position: relative;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-lg);
+    padding: 1.15rem;
+    background:
+      radial-gradient(circle at calc(82% - var(--card-index) * 14%), 25%, rgba(62, 194, 255, 0.14), transparent 36%),
+      var(--bg-panel);
+  }
+
+  .dev-core {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
+    align-items: center;
+    margin-bottom: 0.15rem;
+  }
+
+  .dev-initials {
+    display: inline-grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: linear-gradient(135deg, rgba(255, 124, 57, 0.2), rgba(62, 194, 255, 0.2));
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: 1rem;
+    color: white;
+  }
+
+  .dev-card h2 {
+    margin: 0;
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: 1.52rem;
+    line-height: 1.06;
+  }
+
+  .dev-card p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .dev-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 0.7rem;
+  }
+
+  .dev-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--text-muted);
+  }
+
+  .dev-links a:hover {
+    color: var(--text);
+  }
+
+  @media (min-width: 980px) {
+    .dev-showcase {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

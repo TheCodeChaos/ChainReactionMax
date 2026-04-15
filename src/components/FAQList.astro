@@ -1,0 +1,112 @@
+---
+interface FAQItem {
+  question: string;
+  body: readonly string[];
+}
+
+interface FAQGroup {
+  title: string;
+  items: readonly FAQItem[];
+}
+
+interface Props {
+  groups: readonly FAQGroup[];
+}
+
+const { groups } = Astro.props;
+---
+
+<div class="faq-groups">
+  {
+    groups.map(group => (
+      <section class="faq-group" data-reveal>
+        <div class="faq-group-header">
+          <span class="eyebrow">{group.title}</span>
+        </div>
+        <div class="faq-items">
+          {group.items.map(item => (
+            <details class="faq-item">
+              <summary>{item.question}</summary>
+              <div class="faq-answer">
+                {item.body.map(paragraph => (
+                  <p>{paragraph}</p>
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+</div>
+
+<style>
+  .faq-groups {
+    display: grid;
+    gap: 2.2rem;
+  }
+
+  .faq-group {
+    position: relative;
+  }
+
+  .faq-group-header {
+    margin-bottom: 0.9rem;
+  }
+
+  .faq-items {
+    display: grid;
+    gap: 0;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .faq-item[open] {
+    border-bottom-color: color-mix(in srgb, var(--accent) 58%, var(--line));
+  }
+
+  .faq-item summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.02rem 0;
+    font-weight: 600;
+    font-size: 1.03rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary::after {
+    content: '+';
+    color: var(--accent);
+    font-size: 1.05rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+
+  .faq-item[open] summary::after {
+    content: '−';
+    transform: translateY(-1px);
+  }
+
+  .faq-answer {
+    padding: 0 0 1.1rem;
+    color: var(--text-muted);
+    max-width: 74ch;
+  }
+
+  .faq-answer p {
+    margin: 0;
+  }
+
+  .faq-answer p + p {
+    margin-top: 0.8rem;
+  }
+</style>

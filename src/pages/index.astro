@@ -1,17 +1,512 @@
 ---
+import { getCollection } from 'astro:content';
+import { ArrowRight } from '@lucide/astro';
+import BackToTop from '../components/BackToTop.astro';
+import AuthorBadge from '../components/AuthorBadge.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Layout from '../layouts/Layout.astro';
+import {
+  boardPresets,
+  faqGroups,
+  featureCards,
+  quickFacts,
+  siteConfig,
+} from '../data/site';
 
+const posts = (await getCollection('blog'))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title={siteConfig.name} description={siteConfig.description}>
+  <SiteHeader />
+
+  <div class="page-shell">
+    <main class="container home-page" data-pagefind-body>
+      <section class="section hero-stage" data-reveal>
+        <div class="hero-copy">
+          <span class="eyebrow">Chain Reaction MAX</span>
+          <h1 class="display-title">
+            Quick rounds,
+            <span class="gradient-text">big reversals.</span>
+          </h1>
+          <p class="lede">
+            A clean, fast board game experience for friends: easy to start, satisfying to master,
+            and tense until the last burst.
+          </p>
+          <div class="button-row">
+            <a class="button" href={`${import.meta.env.BASE_URL}/faq`.replace(/\/\//g, '/')}>
+              How to play
+            </a>
+            <a class="button-secondary" href={`${import.meta.env.BASE_URL}/blog`.replace(/\/\//g, '/')}>
+              Strategy blog
+            </a>
+          </div>
+
+          <div class="fact-ribbon" aria-label="Quick facts">
+            {quickFacts.map(fact => <span><strong>{fact.value}</strong> {fact.label}</span>)}
+          </div>
+        </div>
+
+        <div class="hero-orbit" aria-hidden="true">
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="orbit orbit-c"></div>
+          <div class="board-core">
+            <span class="pulse red"></span>
+            <span class="pulse green"></span>
+            <span class="pulse blue"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section feature-stage" data-reveal>
+        <div class="section-headline">
+          <span class="eyebrow">Gameplay direction</span>
+          <h2 class="section-title">Built to make momentum visible.</h2>
+        </div>
+        <div class="feature-wave section-tight">
+          {
+            featureCards.map((feature, index) => (
+              <article class="wave-item" style={`--delay:${index * 90}ms`} data-reveal>
+                <p class="wave-index">0{index + 1}</p>
+                <div>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.description}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section preset-stage" data-reveal>
+        <div class="section-headline">
+          <span class="eyebrow">Board presets</span>
+          <h2 class="section-title">Pick your pressure curve.</h2>
+        </div>
+        <div class="preset-lane section-tight">
+          {
+            boardPresets.map(preset => (
+              <article class="preset-chip">
+                <p>{preset.size}</p>
+                <div>
+                  <h3>{preset.name}</h3>
+                  <p>{preset.summary}</p>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section journal-stage" data-reveal>
+        <div class="section-headline split-head">
+          <div>
+            <span class="eyebrow">Latest posts</span>
+            <h2 class="section-title">Recent writing from the project</h2>
+          </div>
+          <a class="button-ghost" href={`${import.meta.env.BASE_URL}/blog`.replace(/\/\//g, '/')}>
+            Browse all <ArrowRight size={16} />
+          </a>
+        </div>
+
+        <div class="journal-list section-tight">
+          {
+            posts.map(post => (
+              <article class="journal-row">
+                <div class="journal-meta">
+                  <FormattedDate date={post.data.pubDate} />
+                </div>
+                <div class="journal-main">
+                  <h3>
+                    <a href={`${import.meta.env.BASE_URL}/blog/${post.id}/`.replace(/\/\//g, '/')}>
+                      {post.data.title}
+                    </a>
+                  </h3>
+                  <p>{post.data.description}</p>
+                  <div class="tag-row">
+                    {post.data.authors.map(author => <AuthorBadge authorId={author as 'ayaan' | 'shravan'} />)}
+                  </div>
+                </div>
+                <a class="journal-link" href={`${import.meta.env.BASE_URL}/blog/${post.id}/`.replace(/\/\//g, '/')}>
+                  Read <ArrowRight size={16} />
+                </a>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="section weave-stage" data-reveal>
+        <div class="section-headline">
+          <div>
+            <span class="eyebrow">Explore next</span>
+            <h2 class="section-title">Support, team, and answers.</h2>
+          </div>
+        </div>
+
+        <div class="weave-grid section-tight">
+          <article class="weave-block">
+            <h3>Support center</h3>
+            <p>Get quick help paths, issue-report tips, and release tracking in one place.</p>
+            <a href={`${import.meta.env.BASE_URL}/support`.replace(/\/\//g, '/')}>Open support <ArrowRight size={15} /></a>
+          </article>
+
+          <article class="weave-block">
+            <h3>People behind updates</h3>
+            <p>See who is actively building and improving the game experience.</p>
+            <a href={`${import.meta.env.BASE_URL}/developers`.replace(/\/\//g, '/')}>Meet the team <ArrowRight size={15} /></a>
+          </article>
+
+          <article class="weave-block">
+            <h3>FAQ answers</h3>
+            <p>{faqGroups.reduce((count, group) => count + group.items.length, 0)} practical answers about rules, modes, and behavior.</p>
+            <a href={`${import.meta.env.BASE_URL}/faq`.replace(/\/\//g, '/')}>Open FAQ <ArrowRight size={15} /></a>
+          </article>
+        </div>
+
+        <div class="weave-note">
+          <p>Need something specific? Open search and jump straight to the exact topic.</p>
+          <button type="button" class="button-ghost" data-open-search>
+            Open search
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <BackToTop />
+  <SiteFooter />
+</Layout>
+
+<style>
+  .home-page {
+    display: grid;
+    gap: 0;
+  }
+
+  .hero-stage {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .hero-copy {
+    display: grid;
+    gap: 0.95rem;
+  }
+
+  .fact-ribbon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1rem;
+    margin-top: 0.35rem;
+  }
+
+  .fact-ribbon span {
+    color: var(--text-muted);
+    font-size: 0.94rem;
+  }
+
+  .fact-ribbon strong {
+    color: var(--text);
+    margin-right: 0.3rem;
+  }
+
+  .hero-orbit {
+    position: relative;
+    min-height: 360px;
+    border: 1px solid var(--line-soft);
+    border-radius: 40px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 70% 34%, rgba(62, 194, 255, 0.24), transparent 44%),
+      radial-gradient(circle at 30% 72%, rgba(255, 124, 57, 0.24), transparent 42%),
+      var(--bg-panel);
+  }
+
+  .orbit {
+    position: absolute;
+    border: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+    border-radius: 999px;
+  }
+
+  .orbit-a {
+    inset: 16% 14%;
+  }
+
+  .orbit-b {
+    inset: 30% 24%;
+  }
+
+  .orbit-c {
+    inset: 44% 36%;
+  }
+
+  .board-core {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .pulse {
+    position: absolute;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
+  }
+
+  .pulse.red {
+    background: #ff4c46;
+    transform: translate(-68px, 58px);
+  }
+
+  .pulse.green {
+    background: #8df74b;
+    transform: translate(12px, -54px);
+  }
+
+  .pulse.blue {
+    background: #3ec2ff;
+    transform: translate(72px, 44px);
+  }
+
+  .section-headline {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .split-head {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 0.8rem;
+  }
+
+  .feature-wave {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem 1.1rem;
+  }
+
+  .wave-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 0.95rem;
+    transition-delay: var(--delay);
+  }
+
+  .wave-index {
+    margin: 0;
+    font-size: 0.76rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding-top: 0.4rem;
+  }
+
+  .wave-item h3 {
+    margin: 0 0 0.35rem;
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: 1.25rem;
+  }
+
+  .wave-item p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .preset-lane {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .preset-chip {
+    position: relative;
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+    background: color-mix(in srgb, var(--panel) 82%, transparent);
+    padding: 1rem;
+    overflow: hidden;
+  }
+
+  .preset-chip::before {
+    content: '';
+    position: absolute;
+    inset: auto -14% -34% auto;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 124, 57, 0.16), transparent 64%);
+  }
+
+  .preset-chip p {
+    margin: 0 0 0.45rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+  }
+
+  .preset-chip h3 {
+    margin: 0 0 0.32rem;
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: 1.3rem;
+  }
+
+  .preset-chip div p {
+    margin: 0;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .journal-list {
+    display: grid;
+    gap: 0;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .journal-row {
+    display: grid;
+    grid-template-columns: minmax(120px, 165px) 1fr auto;
+    gap: 0.9rem;
+    align-items: start;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .journal-meta {
+    padding-top: 0.35rem;
+  }
+
+  .journal-main h3 {
+    margin: 0 0 0.42rem;
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: clamp(1.35rem, 2.3vw, 1.72rem);
+    line-height: 1.1;
+  }
+
+  .journal-main p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .journal-main .tag-row {
+    margin-top: 0.75rem;
+  }
+
+  .journal-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+    color: var(--text);
+    font-weight: 550;
+    padding-top: 0.36rem;
+  }
+
+  .weave-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .weave-block {
+    border: 1px solid var(--line-soft);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    background: color-mix(in srgb, var(--panel) 84%, transparent);
+    display: grid;
+    gap: 0.42rem;
+  }
+
+  .weave-block h3 {
+    margin: 0;
+    font-family: 'Fraunces', 'Outfit', serif;
+    font-size: 1.2rem;
+  }
+
+  .weave-block p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  .weave-block a {
+    margin-top: 0.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text);
+  }
+
+  .weave-note {
+    margin-top: 0.95rem;
+    border-top: 1px solid var(--line-soft);
+    padding-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .weave-note p {
+    margin: 0;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 980px) {
+    .hero-stage {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    }
+  }
+
+  @media (max-width: 980px) {
+    .hero-stage {
+      order: -1;
+    }
+
+    .feature-wave,
+    .preset-lane,
+    .weave-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .split-head {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-orbit {
+      min-height: 300px;
+    }
+
+    .journal-row {
+      grid-template-columns: 1fr;
+      gap: 0.48rem;
+    }
+
+    .journal-meta,
+    .journal-link {
+      padding-top: 0;
+    }
+  }
+
+  @media (max-width: 740px) {
+    .wave-item {
+      grid-template-columns: 1fr;
+      gap: 0.45rem;
+    }
+
+    .wave-index {
+      padding-top: 0;
+    }
+  }
+</style>

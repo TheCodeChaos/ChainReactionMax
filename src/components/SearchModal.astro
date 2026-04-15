@@ -1,0 +1,190 @@
+---
+import { Search, X } from '@lucide/astro';
+import PagefindSearch from './PagefindSearch.astro';
+---
+
+<div class="search-modal" id="search-modal" aria-hidden="true" data-pagefind-ignore>
+  <button class="search-modal-backdrop" type="button" data-close-search aria-label="Close search"></button>
+  <div
+    class="search-modal-dialog"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="search-modal-title"
+  >
+    <div class="search-modal-top">
+      <p class="search-modal-eyebrow" id="search-modal-title">
+        <Search size={16} /> Search
+      </p>
+      <button class="search-modal-close" type="button" data-close-search aria-label="Close search">
+        <X size={18} />
+      </button>
+    </div>
+
+    <PagefindSearch label="Search Chain Reaction MAX" idPrefix="pagefind-modal" />
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('search-modal');
+  const body = document.body;
+
+  function openModal() {
+    if (!modal) {
+      return;
+    }
+
+    modal.setAttribute('aria-hidden', 'false');
+    modal.classList.add('open');
+    body.style.overflow = 'hidden';
+
+    window.setTimeout(() => {
+      const input = modal.querySelector('.pagefind-ui__search-input');
+      if (input && 'focus' in input && typeof input.focus === 'function') {
+        input.focus();
+      }
+    }, 40);
+  }
+
+  function closeModal() {
+    if (!modal) {
+      return;
+    }
+
+    modal.setAttribute('aria-hidden', 'true');
+    modal.classList.remove('open');
+    body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-open-search]').forEach(trigger => {
+    trigger.addEventListener('click', event => {
+      event.preventDefault();
+      openModal();
+    });
+  });
+
+  modal?.querySelectorAll('[data-close-search]').forEach(trigger => {
+    trigger.addEventListener('click', closeModal);
+  });
+
+  window.addEventListener('crmax:open-search', openModal);
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && modal?.classList.contains('open')) {
+      closeModal();
+    }
+
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+      event.preventDefault();
+      openModal();
+    }
+  });
+</script>
+
+<style>
+  .search-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: none;
+  }
+
+  .search-modal.open {
+    display: grid;
+    place-items: start center;
+  }
+
+  .search-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: rgba(3, 8, 20, 0.82);
+    cursor: pointer;
+  }
+
+  .search-modal-dialog {
+    position: relative;
+    width: min(820px, calc(100% - 2rem));
+    margin-top: clamp(4.5rem, 8vh, 6.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--bg) 88%, #0a142d 12%);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 0.95rem;
+    box-shadow: 0 18px 60px rgba(2, 8, 20, 0.5);
+  }
+
+  .search-modal-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .search-modal-eyebrow {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-soft);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .search-modal-close {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-soft);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    cursor: pointer;
+  }
+
+  .search-modal :global(.search-shell) {
+    border: 1px solid var(--line-soft);
+    padding: 0.15rem;
+    background: color-mix(in srgb, var(--bg-panel) 98%, transparent);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  :global([data-theme='light']) .search-modal-dialog {
+    background: color-mix(in srgb, var(--bg) 95%, #ffffff 5%);
+    box-shadow: 0 16px 48px rgba(30, 55, 112, 0.2);
+  }
+
+  :global([data-theme='light']) .search-modal :global(.search-shell) {
+    background: color-mix(in srgb, #ffffff 96%, var(--bg) 4%);
+  }
+
+  .search-modal :global(.search-header) {
+    display: none;
+  }
+
+  .search-modal :global(.pagefind-ui) {
+    margin-top: 0;
+  }
+
+  .search-modal :global(.pagefind-ui__drawer) {
+    max-height: min(60vh, 500px);
+    overflow: auto;
+    padding-right: 0.25rem;
+  }
+
+  @media (max-width: 700px) {
+    .search-modal-dialog {
+      width: calc(100% - 1rem);
+      margin-top: calc(var(--nav-height) + 0.5rem);
+      padding: 0.75rem;
+      border-radius: var(--radius-md);
+    }
+  }
+</style>

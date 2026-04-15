@@ -1,0 +1,48 @@
+---
+import BackToTop from '../components/BackToTop.astro';
+import FAQList from '../components/FAQList.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Layout from '../layouts/Layout.astro';
+import { faqGroups } from '../data/site';
+---
+
+<Layout title="FAQ" description="Frequently asked questions about Chain Reaction MAX.">
+  <SiteHeader />
+
+  <div class="page-shell">
+    <main class="container faq-page" data-pagefind-body>
+      <section class="section faq-hero" data-reveal>
+        <span class="eyebrow">FAQ</span>
+        <h1 class="page-title">Rules, rooms, and match logic.</h1>
+        <p class="lede">
+          Everything here maps to the current codebase and app flow, from critical-cell rules to
+          match setup behavior.
+        </p>
+      </section>
+
+      <section class="section faq-body" data-reveal>
+        <FAQList groups={faqGroups} />
+      </section>
+    </main>
+  </div>
+
+  <BackToTop />
+  <SiteFooter />
+</Layout>
+
+<style>
+  .faq-page {
+    display: grid;
+    gap: 0;
+  }
+
+  .faq-hero {
+    display: grid;
+    gap: 0.95rem;
+  }
+
+  .faq-body {
+    padding-top: 0;
+  }
+</style>

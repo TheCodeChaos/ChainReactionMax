@@ -1,0 +1,71 @@
+---
+import { authors } from '../data/site';
+
+interface Props {
+  authorId: keyof typeof authors;
+}
+
+const { authorId } = Astro.props;
+const author = authors[authorId];
+
+if (!author) {
+  throw new Error(`Unknown author: ${authorId}`);
+}
+
+const website = 'website' in author.links ? author.links.website : undefined;
+const primaryLink = author.links.github ?? website;
+---
+
+{
+  primaryLink ? (
+    <a
+      href={primaryLink}
+      class="author-badge"
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`Open ${author.name} profile`}
+    >
+      <span class="author-avatar">{author.initials}</span>
+      <span>{author.name}</span>
+    </a>
+  ) : (
+    <span class="author-badge">
+      <span class="author-avatar">{author.initials}</span>
+      <span>{author.name}</span>
+    </span>
+  )
+}
+
+<style>
+  .author-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-soft);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.22rem 0.62rem 0.22rem 0.22rem;
+    color: var(--text);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+
+  a.author-badge:hover {
+    border-color: color-mix(in srgb, var(--accent) 54%, var(--line));
+    transform: translateY(-1px);
+  }
+
+  .author-avatar {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent-2) 56%, var(--accent)));
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+</style>
