@@ -22,10 +22,54 @@ const { title = siteConfig.name, description = siteConfig.description, seo = {} 
 const pageTitle =
   title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
 const canonicalBase = Astro.site?.toString() ?? siteConfig.siteUrl;
-const canonicalUrl = new URL(Astro.url.pathname, canonicalBase).toString();
-const normalizedPath = Astro.url.pathname.replace(/\/$/, '') || '/';
-const ogPath = seo.ogImagePath ?? (normalizedPath === '/' ? '/og/index.png' : `/og${normalizedPath}.png`);
+const configuredBasePath =
+  import.meta.env.BASE_URL === '/'
+    ? ''
+    : `/${import.meta.env.BASE_URL.replace(/^\/+|\/+$/g, '')}`;
+
+function stripConfiguredBase(pathname: string) {
+  const normalizedPath = pathname.replace(/\/$/, '') || '/';
+
+  if (!configuredBasePath) {
+    return normalizedPath;
+  }
+
+  if (normalizedPath === configuredBasePath) {
+    return '/';
+  }
+
+  if (normalizedPath.startsWith(`${configuredBasePath}/`)) {
+    return normalizedPath.slice(configuredBasePath.length) || '/';
+  }
+
+  return normalizedPath;
+}
+
+function applyConfiguredBase(pathname: string) {
+  const normalizedPath =
+    pathname === '' ? '/' : pathname.startsWith('/') ? pathname : `/${pathname}`;
+
+  if (!configuredBasePath) {
+    return normalizedPath;
+  }
+
+  if (
+    normalizedPath === configuredBasePath ||
+    normalizedPath.startsWith(`${configuredBasePath}/`)
+  ) {
+    return normalizedPath;
+  }
+
+  return `${configuredBasePath}${normalizedPath}`.replace(/\/\//g, '/');
+}
+
+const routePath = stripConfiguredBase(Astro.url.pathname);
+const canonicalPath = applyConfiguredBase(routePath);
+const canonicalUrl = new URL(canonicalPath, canonicalBase).toString();
+const defaultOgPath = routePath === '/' ? '/og/index.png' : `/og${routePath}.png`;
+const ogPath = applyConfiguredBase(seo.ogImagePath ?? defaultOgPath);
 const ogImageUrl = new URL(ogPath, canonicalBase).toString();
+const siteBaseNoTrailingSlash = siteConfig.siteUrl.replace(/\/$/, '');
 const robotsValue = seo.noindex
   ? 'noindex, nofollow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
   : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
@@ -39,7 +83,7 @@ const websiteSchema = {
   url: siteConfig.siteUrl,
   potentialAction: {
     '@type': 'SearchAction',
-    target: `${siteConfig.siteUrl}/?q={search_term_string}`,
+    target: `${siteBaseNoTrailingSlash}/?q={search_term_string}`,
     'query-input': 'required name=search_term_string',
   },
 };
