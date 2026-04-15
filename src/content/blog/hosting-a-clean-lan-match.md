@@ -1,16 +1,16 @@
 ---
-title: Hosting a Clean Match Room
-description: The current multiplayer flow works best with nearby room setup, so a little discipline makes sessions smoother.
+title: Hosting a Clean LAN Match
+description: The current multiplayer flow is local-network only, so a little setup discipline makes sessions smoother.
 pubDate: 2026-04-10
 authors:
   - ayaan
   - shravan
 tags:
   - Multiplayer
-  - Room Setup
+  - LAN
 ---
 
-Chain Reaction MAX already supports a practical host-and-join room loop. That makes it great for nearby friends, classrooms, and small tournaments, but it also means session quality depends on how cleanly the room is set up.
+Chain Reaction MAX already supports a practical host-and-join loop for local networks. That makes it great for nearby friends, classrooms, and small tournaments, but it also means the session quality depends on how cleanly the room is set up.
 
 ## Start with one clear host
 
@@ -24,9 +24,9 @@ That flow works best when everyone agrees up front on:
 
 If those decisions stay fluid while people are connecting, the room feels broken even when the network code is behaving correctly.
 
-## Keep everyone in the same room setup
+## Keep everyone on the same network
 
-Because discovery is room-based, joining works best when devices stay in the same environment. In practical terms:
+Because discovery is local-first, joining works best when devices truly share the same network environment. In practical terms:
 
 - use the same Wi-Fi network
 - avoid switching networks mid-lobby

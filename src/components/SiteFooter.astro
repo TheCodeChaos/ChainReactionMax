@@ -1,6 +1,6 @@
 ---
 import { GitBranch, Rss, Search } from '@lucide/astro';
-import { navLinks, siteConfig } from '../data/site';
+import { navLinks, quickFacts, siteConfig } from '../data/site';
 ---
 
 <footer class="site-footer section" data-pagefind-ignore>
@@ -41,6 +41,15 @@ import { navLinks, siteConfig } from '../data/site';
           <a href={`${import.meta.env.BASE_URL}/rss.xml`.replace(/\/\//g, '/')}>
             <Rss size={16} /> RSS
           </a>
+        </div>
+
+        <div>
+          <h3>Quick facts</h3>
+          {
+            quickFacts.map(fact => (
+              <p><strong>{fact.value}</strong> {fact.label}</p>
+            ))
+          }
           <button type="button" class="footer-search" data-open-search>
             <Search size={16} /> Search
           </button>
@@ -161,28 +170,6 @@ import { navLinks, siteConfig } from '../data/site';
   @media (max-width: 720px) {
     .footer-top {
       padding: 1.1rem;
-    }
-
-    .footer-brand,
-    .footer-links,
-    .footer-links > div,
-    .footer-bottom {
-      text-align: center;
-      justify-content: center;
-    }
-
-    .footer-brand .eyebrow {
-      justify-content: center;
-    }
-
-    .footer-brand p {
-      margin-inline: auto;
-    }
-
-    .footer-links a,
-    .footer-search {
-      justify-content: center;
-      width: 100%;
     }
   }
 </style>

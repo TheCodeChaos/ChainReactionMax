@@ -19,7 +19,7 @@ Choose it when:
 
 - you want quick rematches
 - the group is learning the rules
-- you want shorter sessions on one device
+- you want shorter local sessions on one device
 
 ## Classic: 9 x 6
 
@@ -28,7 +28,7 @@ This is the most balanced preset in the app right now. There is enough room to b
 Choose it when:
 
 - players have mixed experience
-- you want the cleanest default for room matches
+- you want the cleanest default for LAN matches
 - you want swing moments without marathon rounds
 
 ## Warzone: 12 x 8

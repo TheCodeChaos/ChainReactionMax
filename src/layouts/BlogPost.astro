@@ -47,12 +47,10 @@ const { title, description, pubDate, updatedDate, authors, tags, headings = [] }
       </article>
 
       <div class="section article-layout" data-reveal>
-        <div class="article-toc">
-          <TableOfContents headings={headings} />
-        </div>
         <div class="article-prose">
           <slot />
         </div>
+        <TableOfContents headings={headings} />
       </div>
     </main>
   </div>
@@ -87,10 +85,6 @@ const { title, description, pubDate, updatedDate, authors, tags, headings = [] }
     gap: 1.2rem;
   }
 
-  .article-toc {
-    order: -1;
-  }
-
   .article-prose {
     width: min(100%, 760px);
     margin-inline: auto;
@@ -101,14 +95,6 @@ const { title, description, pubDate, updatedDate, authors, tags, headings = [] }
     .article-layout {
       grid-template-columns: minmax(0, 1fr) 280px;
       align-items: start;
-    }
-
-    .article-prose {
-      order: 1;
-    }
-
-    .article-toc {
-      order: 2;
     }
   }
 

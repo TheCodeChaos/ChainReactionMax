@@ -12,16 +12,16 @@ import Layout from '../layouts/Layout.astro';
     <main class="container privacy-page" data-pagefind-body>
       <section class="section legal-panel" data-reveal>
         <span class="eyebrow">Privacy</span>
-        <h1 class="page-title">Privacy-first by design.</h1>
+        <h1 class="page-title">Local-first by design.</h1>
         <p class="lede">
           Chain Reaction MAX does not currently rely on a remote backend or third-party analytics layer.
-          The gameplay system focuses on direct room sessions without account-based tracking.
+          The Flutter codebase focuses on local gameplay and same-network matchmaking.
         </p>
 
         <div class="privacy-strip" aria-label="Privacy summary">
           <span><strong>No analytics SDK</strong></span>
           <span><strong>No hosted search API</strong></span>
-          <span><strong>Match traffic only during sessions</strong></span>
+          <span><strong>LAN traffic only for matches</strong></span>
         </div>
 
         <div class="legal-copy section-tight">
@@ -39,10 +39,10 @@ import Layout from '../layouts/Layout.astro';
           <article class="policy-row">
             <span>02</span>
             <div>
-              <h2>Match session traffic</h2>
+              <h2>LAN play</h2>
             <p>
-              Host and join messages are exchanged only for room discovery and match start.
-              That traffic is gameplay coordination, not telemetry.
+              Host and join messages are exchanged over the same local network to discover rooms and start
+              matches. That traffic is gameplay, not telemetry.
             </p>
             </div>
           </article>

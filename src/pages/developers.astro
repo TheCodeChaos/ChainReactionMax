@@ -16,7 +16,7 @@ import { developers } from '../data/site';
         <span class="eyebrow">Meet the devs</span>
         <h1 class="page-title">The people shaping each release.</h1>
         <p class="lede">
-          The duo behind Chain Reaction MAX and its evolving game experience.
+          A lean contributor lineup with clear ownership over gameplay, LAN flow, and product polish.
         </p>
       </section>
 
@@ -28,7 +28,14 @@ import { developers } from '../data/site';
               <article class="dev-card" data-reveal style={`--card-index:${index};`}>
                 <div class="dev-core">
                   <span class="dev-initials">{dev.initials}</span>
-                  <h2>{dev.name}</h2>
+                  <div>
+                    <p class="dev-role">{dev.role}</p>
+                    <h2>{dev.name}</h2>
+                  </div>
+                </div>
+                <p>{dev.summary}</p>
+                <div class="focus-row">
+                  {dev.focus.map(item => <span>{item}</span>)}
                 </div>
                 <div class="dev-links">
                   {dev.links.github && (
@@ -80,7 +87,7 @@ import { developers } from '../data/site';
     grid-template-columns: auto 1fr;
     gap: 0.9rem;
     align-items: center;
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.72rem;
   }
 
   .dev-initials {
@@ -97,7 +104,7 @@ import { developers } from '../data/site';
   }
 
   .dev-card h2 {
-    margin: 0;
+    margin: 0.12rem 0 0;
     font-family: 'Fraunces', 'Outfit', serif;
     font-size: 1.52rem;
     line-height: 1.06;
@@ -108,11 +115,35 @@ import { developers } from '../data/site';
     color: var(--text-muted);
   }
 
+  .dev-role {
+    color: var(--text-soft) !important;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .focus-row {
+    margin-top: 0.95rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .focus-row span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.22rem 0.58rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-soft);
+    color: var(--text-soft);
+    font-size: 0.8rem;
+  }
+
   .dev-links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.85rem;
-    margin-top: 0.7rem;
+    margin-top: 0.95rem;
   }
 
   .dev-links a {

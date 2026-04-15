@@ -17,8 +17,14 @@ import { faqGroups } from '../data/site';
         <h1 class="page-title">Rules, rooms, and match logic.</h1>
         <p class="lede">
           Everything here maps to the current codebase and app flow, from critical-cell rules to
-          match setup behavior.
+          LAN host discovery behavior.
         </p>
+
+        <div class="faq-strip" aria-label="FAQ summary">
+          <span><strong>{faqGroups.length}</strong> topic groups</span>
+          <span><strong>{faqGroups.reduce((count, group) => count + group.items.length, 0)}</strong> total answers</span>
+          <span><strong>0 fluff</strong> direct, implementation-grounded replies</span>
+        </div>
       </section>
 
       <section class="section faq-body" data-reveal>
@@ -40,6 +46,30 @@ import { faqGroups } from '../data/site';
   .faq-hero {
     display: grid;
     gap: 0.95rem;
+  }
+
+  .faq-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .faq-strip span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 1px solid var(--line-soft);
+    border-radius: 999px;
+    padding: 0.26rem 0.7rem;
+    color: var(--text-soft);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    background: color-mix(in srgb, var(--panel) 82%, transparent);
+  }
+
+  .faq-strip strong {
+    color: var(--text);
+    font-weight: 600;
   }
 
   .faq-body {

@@ -57,12 +57,6 @@ function isActive(href: string) {
   </div>
 
   <div class="container mobile-panel" id="mobile-panel">
-    <div class="mobile-panel-head">
-      <p>Menu</p>
-      <button class="mobile-search-cta" type="button" data-open-search>
-        <Search size={15} /> Search
-      </button>
-    </div>
     <nav class="mobile-nav" aria-label="Mobile navigation">
       {
         navLinks.map(link => (
@@ -74,6 +68,9 @@ function isActive(href: string) {
           </a>
         ))
       }
+      <button class="mobile-link mobile-search" type="button" data-open-search>
+        Search ({siteConfig.searchHint})
+      </button>
       <a href={siteConfig.repoUrl} class="mobile-link" target="_blank" rel="noreferrer">
         Project repository
       </a>
@@ -256,15 +253,12 @@ function isActive(href: string) {
   }
 
   .mobile-panel {
-    padding: 0.75rem;
+    border-top: 1px solid var(--line-soft);
+    padding: 0.7rem 0 0.95rem;
   }
 
   .mobile-panel.open {
     display: block;
-  }
-
-  .mobile-panel-head {
-    display: none;
   }
 
   .mobile-nav {
@@ -299,20 +293,6 @@ function isActive(href: string) {
   }
 
   @media (max-width: 820px) {
-    .header-inner {
-      grid-template-columns: auto 1fr;
-      gap: 0.75rem;
-    }
-
-    .header-actions {
-      order: -1;
-      justify-content: flex-start;
-    }
-
-    .brand-link {
-      justify-self: center;
-    }
-
     .search-link,
     .repo-link {
       display: none;
@@ -320,65 +300,6 @@ function isActive(href: string) {
 
     .menu-toggle {
       display: inline-flex;
-    }
-
-    .mobile-panel {
-      position: absolute;
-      top: calc(var(--nav-height) - 0.15rem);
-      left: 0.6rem;
-      right: auto;
-      width: min(90vw, 360px);
-      border: 1px solid var(--line-soft);
-      border-radius: 14px;
-      background: color-mix(in srgb, var(--bg-panel) 98%, transparent);
-      box-shadow: 0 12px 38px rgba(5, 12, 30, 0.35);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
-    }
-
-    .mobile-panel-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.65rem;
-      margin-bottom: 0.55rem;
-    }
-
-    .mobile-panel-head p {
-      margin: 0;
-      color: var(--text-soft);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-size: 0.74rem;
-    }
-
-    .mobile-search-cta {
-      border: 1px solid var(--line-soft);
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.04);
-      color: var(--text-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      padding: 0.28rem 0.72rem;
-      font-size: 0.78rem;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .mobile-search-cta:hover {
-      color: var(--text);
-      border-color: var(--line);
-    }
-
-    .mobile-nav {
-      gap: 0.4rem;
-    }
-
-    .mobile-link {
-      padding: 0.58rem 0.5rem;
-      font-size: 0.92rem;
     }
   }
 

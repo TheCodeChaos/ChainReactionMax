@@ -3,7 +3,7 @@ export const siteConfig = {
   shortName: 'CR MAX',
   tagline: 'Fast rounds. Big reversals. Pure chain-reaction chaos.',
   description:
-    'Chain Reaction MAX is a multiplayer strategy game for 2 to 6 players with flexible match rooms, multiple board sizes, and dramatic chain bursts.',
+    'Chain Reaction MAX is a multiplayer strategy game for 2 to 6 players with local battles, LAN rooms, multiple board sizes, and dramatic chain bursts.',
   siteUrl: 'https://chainreactionmax.pages.dev',
   repoUrl: 'https://github.com/Ayaan-7091/Chain-Reaction-MAX',
   issuesUrl: 'https://github.com/Ayaan-7091/Chain-Reaction-MAX/issues',
@@ -21,7 +21,7 @@ export const navLinks = [
 
 export const quickFacts = [
   { label: 'Players', value: '2-6' },
-  { label: 'Modes', value: 'Pass & Play + Rooms' },
+  { label: 'Modes', value: 'Local + LAN' },
   { label: 'Boards', value: '6x5 to 12x8' },
   { label: 'Style', value: 'Quick or tactical' },
 ] as const;
@@ -35,7 +35,7 @@ export const featureCards = [
   {
     title: 'Play around one screen or across a room',
     description:
-      'Start a match quickly, invite players into a room, and keep sessions smooth without extra setup friction.',
+      'Spin up a local game instantly, or host and discover LAN matches over the same network without a central server.',
   },
   {
     title: 'Built for dramatic reversals',
@@ -68,9 +68,9 @@ export const boardPresets = [
 ] as const;
 
 export const supportChecklist = [
-  'Confirm which match setup you were using when the issue occurred.',
+  'Confirm which mode you were using: local game, host network game, or join network game.',
   'Note the board size and player count that reproduced the issue.',
-  'Share whether the problem happened during an explosion replay, a live turn, or room discovery.',
+  'Share whether the problem happened during an explosion replay, a live turn, or lobby discovery.',
   'Include screenshots or a short screen recording when the bug is visual.',
 ] as const;
 
@@ -89,7 +89,7 @@ export const faqGroups = [
         question: 'How many players can join a match?',
         body: [
           'Chain Reaction MAX currently supports 2 to 6 players.',
-          'You can set the player count before launching any match from the home screen.',
+          'You can set the player count before launching a local or LAN match from the home screen.',
         ],
       },
       {
@@ -114,14 +114,14 @@ export const faqGroups = [
       {
         question: 'Does the game support internet matchmaking?',
         body: [
-          'Not yet. Multiplayer today focuses on nearby room setup and shared-device sessions.',
+          'Not yet. Multiplayer today is local-first: players can share one device or use LAN discovery on the same network.',
           'That keeps setup lightweight and avoids relying on a remote backend.',
         ],
       },
       {
-        question: 'How does room discovery work?',
+        question: 'How does LAN play work?',
         body: [
-          'One player hosts, the app advertises the room, and nearby players can discover and join it.',
+          'One player hosts, the app advertises the room on the local network, and nearby devices can discover and join it.',
           'When enough players connect, the host sends the game-start payload with the selected grid and player count.',
         ],
       },
@@ -140,8 +140,8 @@ export const faqGroups = [
       {
         question: 'Does Chain Reaction MAX collect analytics or cloud data?',
         body: [
-          'The current codebase does not ship a cloud backend or analytics SDK.',
-          'Normal matches run directly between participating devices without account tracking.',
+          'The current codebase is local-first and does not ship a cloud backend or analytics SDK.',
+          'LAN messages stay on the same network, and normal matches run entirely on-device.',
         ],
       },
     ],
@@ -156,7 +156,7 @@ export const developers = [
     role: 'Lead Developer',
     summary:
       'Owns the current repo direction and shipped the main Flutter gameplay, lobby setup, and presentation layer.',
-    focus: ['Core game loop', 'Room flow', 'Release direction'],
+    focus: ['Core game loop', 'LAN play flow', 'Release direction'],
     links: {
       github: 'https://github.com/Ayaan-7091',
     },
@@ -187,7 +187,7 @@ export const credits = [
     items: [
       'Flutter for cross-platform delivery',
       'Riverpod for state management',
-      'Bonsoir for room discovery',
+      'Bonsoir for local network discovery',
       'shelf_web_socket and web_socket_channel for room communication',
     ],
   },
@@ -204,7 +204,7 @@ export const credits = [
     title: 'Design Notes',
     items: [
       'Brand colors and the orbital motif are adapted from the in-app logo and dark neon game screens.',
-      'Support and documentation flow are intentionally lightweight to match the product philosophy.',
+      'Support and documentation flow are intentionally local-first to match the product philosophy.',
     ],
   },
 ] as const;
