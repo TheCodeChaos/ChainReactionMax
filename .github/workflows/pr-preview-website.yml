@@ -1,0 +1,89 @@
+name: ChainReactionMax Website PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'astro.config.mjs'
+      - 'tsconfig.json'
+      - '.github/workflows/pr-preview-website.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  build-and-preview:
+    if: github.event.action == 'opened' || github.event.action == 'synchronize' || github.event.action == 'reopened'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application for preview
+        run: npm run build
+        env:
+          PR_PREVIEW_BASE_URL: /pr-previews/${{ github.event.pull_request.number }}/
+          SITE: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-previews/${{ github.event.pull_request.number }}/
+
+      - name: Add .nojekyll file
+        run: touch ./dist/.nojekyll
+
+      - name: Deploy preview to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
+          target-folder: /pr-previews/${{ github.event.pull_request.number }}
+          clean: false
+          commit-message: "Website: Deploy preview for PR ${{ github.event.pull_request.number }}"
+
+      - name: Comment with preview URL
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            <!-- preview-url-comment -->
+            A preview of this pull request has been deployed.
+            **[https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-previews/${{ github.event.pull_request.number }}/](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-previews/${{ github.event.pull_request.number }}/)**
+          comment_tag: preview-url-comment
+
+  cleanup-preview:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout gh-pages branch
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Remove PR preview
+        run: |
+          if [ -d "pr-previews/${{ github.event.pull_request.number }}" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git rm -rf "pr-previews/${{ github.event.pull_request.number }}"
+            git commit -m "Website: Remove preview for PR ${{ github.event.pull_request.number }}"
+            git push
+          else
+            echo "Preview directory not found, skipping removal."
+          fi

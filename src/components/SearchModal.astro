@@ -28,6 +28,23 @@ import PagefindSearch from './PagefindSearch.astro';
   const modal = document.getElementById('search-modal');
   const body = document.body;
 
+  function getSearchQuery() {
+    const value = new URL(window.location.href).searchParams.get('q');
+    return value ? value.trim() : '';
+  }
+
+  function applySearchQuery(value: string) {
+    const input = modal?.querySelector('.pagefind-ui__search-input');
+
+    if (!(input instanceof HTMLInputElement)) {
+      return false;
+    }
+
+    input.value = value;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    return true;
+  }
+
   function openModal() {
     if (!modal) {
       return;
@@ -45,6 +62,26 @@ import PagefindSearch from './PagefindSearch.astro';
     }, 40);
   }
 
+  function openModalWithQuery(value: string) {
+    openModal();
+
+    if (!value) {
+      return;
+    }
+
+    if (applySearchQuery(value)) {
+      return;
+    }
+
+    let attempts = 0;
+    const retryTimer = window.setInterval(() => {
+      attempts += 1;
+      if (applySearchQuery(value) || attempts >= 40) {
+        window.clearInterval(retryTimer);
+      }
+    }, 60);
+  }
+
   function closeModal() {
     if (!modal) {
       return;
@@ -53,6 +90,11 @@ import PagefindSearch from './PagefindSearch.astro';
     modal.setAttribute('aria-hidden', 'true');
     modal.classList.remove('open');
     body.style.overflow = '';
+  }
+
+  const initialQuery = getSearchQuery();
+  if (initialQuery) {
+    openModalWithQuery(initialQuery);
   }
 
   document.querySelectorAll('[data-open-search]').forEach(trigger => {
@@ -66,7 +108,16 @@ import PagefindSearch from './PagefindSearch.astro';
     trigger.addEventListener('click', closeModal);
   });
 
-  window.addEventListener('crmax:open-search', openModal);
+  window.addEventListener('crmax:open-search', () => {
+    openModalWithQuery(getSearchQuery());
+  });
+
+  window.addEventListener('popstate', () => {
+    const query = getSearchQuery();
+    if (query) {
+      openModalWithQuery(query);
+    }
+  });
 
   document.addEventListener('keydown', event => {
     if (event.key === 'Escape' && modal?.classList.contains('open')) {

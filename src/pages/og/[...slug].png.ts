@@ -62,13 +62,6 @@ const staticPages = [
     path: '/privacy',
   },
   {
-    slug: 'search',
-    title: 'Search',
-    description: 'Pagefind-powered search across the Chain Reaction MAX website.',
-    label: 'Page',
-    path: '/search',
-  },
-  {
     slug: 'support',
     title: 'Support',
     description: 'Support paths and issue reporting for Chain Reaction MAX.',

@@ -7,17 +7,12 @@ interface Props {
 const { label = 'Search the site', idPrefix = 'pagefind' } = Astro.props;
 
 const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, '');
-const localScriptUrl = `${baseUrl}/pagefind/pagefind-ui.js`.replace(/\/\//g, '/');
-const localStyleUrl = `${baseUrl}/pagefind/pagefind-ui.css`.replace(/\/\//g, '/');
-const cdnScriptUrl = 'https://cdn.jsdelivr.net/npm/@pagefind/default-ui@latest/dist/pagefind-ui.js';
-const cdnStyleUrl = 'https://cdn.jsdelivr.net/npm/@pagefind/default-ui@latest/dist/pagefind-ui.css';
 const bundlePath = `${baseUrl}/pagefind/`.replace(/\/\//g, '/');
 const searchContainerId = `${idPrefix}-search`;
 const statusId = `${idPrefix}-status`;
-const isDev = import.meta.env.DEV;
 ---
 
-<div class="search-shell" id={`${idPrefix}-root`}>
+<div class="search-shell" id={`${idPrefix}-root`} data-pagefind-root data-bundle-path={bundlePath}>
   <div class="search-header">
     <span class="eyebrow">Pagefind</span>
     <h2>{label}</h2>
@@ -25,130 +20,69 @@ const isDev = import.meta.env.DEV;
       Search blog posts, FAQs, product copy, support notes, and page titles from one place.
     </p>
   </div>
-  <div id={searchContainerId}></div>
-  <p class="search-status" id={statusId}>
+  <div id={searchContainerId} data-pagefind-container></div>
+  <p class="search-status" id={statusId} data-pagefind-status>
     Search loads automatically in production builds after Pagefind indexes the site.
   </p>
 </div>
 
-<script define:vars={{
-  localScriptUrl,
-  localStyleUrl,
-  cdnScriptUrl,
-  cdnStyleUrl,
-  bundlePath,
-  searchContainerId,
-  statusId,
-  isDev,
-}}>
-  const root = document.getElementById(searchContainerId);
-  const status = document.getElementById(statusId);
+<script>
+  import { PagefindUI } from '@pagefind/default-ui';
+  import '@pagefind/default-ui/css/ui.css';
 
-  const scriptCandidates = isDev ? [cdnScriptUrl] : [localScriptUrl, cdnScriptUrl];
-  const styleCandidates = isDev ? [cdnStyleUrl] : [localStyleUrl, cdnStyleUrl];
-
-  function ensureStyle() {
-    if (document.querySelector('link[data-pagefind-style]')) {
+  const bootRoot = async (root: HTMLElement) => {
+    if (root.dataset.pagefindReady === 'true' || root.dataset.pagefindBooting === 'true') {
       return;
     }
 
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = styleCandidates[0];
-    link.dataset.pagefindStyle = 'true';
-    link.onerror = () => {
-      if (styleCandidates[1]) {
-        link.href = styleCandidates[1];
-      }
-    };
-    document.head.appendChild(link);
-  }
+    const container = root.querySelector('[data-pagefind-container]');
+    const status = root.querySelector('[data-pagefind-status]');
 
-  async function loadPagefindUI() {
-    if (window.__crmaxPagefindUI) {
-      return window.__crmaxPagefindUI;
-    }
-
-    if (window.__crmaxPagefindPromise) {
-      return window.__crmaxPagefindPromise;
-    }
-
-    window.__crmaxPagefindPromise = new Promise((resolve, reject) => {
-      const tryScript = index => {
-        const src = scriptCandidates[index];
-        if (!src) {
-          reject(new Error('Pagefind script failed to load.'));
-          return;
-        }
-
-        const existing = document.querySelector(`script[data-pagefind-script="${src}"]`);
-        if (existing && window.PagefindUI) {
-          window.__crmaxPagefindUI = window.PagefindUI;
-          resolve(window.PagefindUI);
-          return;
-        }
-
-        const script = existing || document.createElement('script');
-        script.src = src;
-        script.async = true;
-        script.dataset.pagefindScript = src;
-        script.onload = () => {
-          if (window.PagefindUI) {
-            window.__crmaxPagefindUI = window.PagefindUI;
-            resolve(window.PagefindUI);
-            return;
-          }
-
-          tryScript(index + 1);
-        };
-        script.onerror = () => {
-          tryScript(index + 1);
-        };
-
-        if (!existing) {
-          document.head.appendChild(script);
-        }
-      };
-
-      tryScript(0);
-    });
-
-    return window.__crmaxPagefindPromise;
-  }
-
-  async function bootPagefind() {
-    if (!root) {
+    if (!(container instanceof HTMLElement) || !container.id) {
       return;
     }
+
+    root.dataset.pagefindBooting = 'true';
 
     try {
-      ensureStyle();
-      const PagefindUI = await loadPagefindUI();
-
-      root.dataset.pagefindReady = 'true';
       new PagefindUI({
-        element: `#${searchContainerId}`,
-        bundlePath,
+        element: `#${container.id}`,
+        bundlePath: root.dataset.bundlePath || '/pagefind/',
         showSubResults: true,
         excerptLength: 18,
         pageSize: 8,
         autofocus: false,
         resetStyles: false,
         translations: {
-          placeholder: 'Search for rules, modes, tips, and support topics...',
+          placeholder: 'Search for rules, tips, and support topics...',
         },
       });
 
+      root.dataset.pagefindReady = 'true';
       status?.remove();
-    } catch (error) {
-      if (status) {
+    } catch (_error) {
+      if (status instanceof HTMLElement) {
         status.textContent =
-          'Search is ready after running a production build with Pagefind. If you are in dev mode, this fallback message is expected.';
+          'Search is available after running a production build with Pagefind indexing.';
       }
+    } finally {
+      root.dataset.pagefindBooting = 'false';
     }
-  }
+  };
 
-  bootPagefind();
+  const initAll = () => {
+    document.querySelectorAll('[data-pagefind-root]').forEach(root => {
+      if (root instanceof HTMLElement) {
+        bootRoot(root);
+      }
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAll, { once: true });
+  } else {
+    initAll();
+  }
 </script>
 
 <style is:global>
