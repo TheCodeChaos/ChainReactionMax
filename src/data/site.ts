@@ -46,6 +46,16 @@ export const featureCards = [
     description:
       'The game records every explosion step and can replay the previous chain sequence so players can study exactly how the board swung.',
   },
+  {
+    title: 'Undo the last move',
+    description:
+      'A full move history is kept throughout each game, so any player can undo the most recent atom placement while a match is still live.',
+  },
+  {
+    title: 'Sessions persist and resume',
+    description:
+      'Active games are saved automatically after every turn. Any unfinished match can be picked up from the home screen without losing board state or turn order.',
+  },
 ] as const;
 
 export const boardPresets = [
@@ -104,6 +114,14 @@ export const faqItems = [
     body: ['6 x 5 is the easiest starting point because turns resolve quickly and pressure is easier to read.'],
   },
   {
+    question: 'Can I undo a move?',
+    body: ['Yes, an undo button is available during any live match and steps back the last placed atom.'],
+  },
+  {
+    question: 'Are games saved automatically?',
+    body: ['Yes, active sessions are saved after every turn. The home screen lists all in-progress games so you can resume or delete them at any time.'],
+  },
+  {
     question: 'Where should I report bugs?',
     body: ['Use the GitHub Issues link from the Support page and include board size, player count, and reproduction steps.'],
   },
@@ -140,8 +158,8 @@ export const credits = [
     items: [
       'Flutter for cross-platform delivery',
       'Riverpod for state management',
-      'Bonsoir for multiplayer session discovery',
-      'shelf_web_socket and web_socket_channel for real-time session communication',
+      'SharedPreferences for persistent sessions and leaderboard',
+      'Google Fonts for in-app typography',
     ],
   },
   {
