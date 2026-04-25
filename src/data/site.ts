@@ -8,6 +8,7 @@ export const siteConfig = {
   repoUrl: 'https://github.com/TheCodeChaos/ChainReactionMax',
   issuesUrl: 'https://github.com/TheCodeChaos/ChainReactionMax/issues',
   releasesUrl: 'https://github.com/TheCodeChaos/ChainReactionMax/releases',
+  appUrl: 'https://TheCodeChaos.github.io/ChainReactionMax/app/',
   searchHint: 'Ctrl+K',
 } as const;
 
@@ -18,6 +19,8 @@ export const navLinks = [
   { href: '/developers', label: 'Developers' },
   { href: '/support', label: 'Support' },
 ] as const;
+
+export const playLink = { href: 'https://TheCodeChaos.github.io/ChainReactionMax/app/', label: 'Play' } as const;
 
 export const quickFacts = [
   { label: 'Players', value: '2-6' },

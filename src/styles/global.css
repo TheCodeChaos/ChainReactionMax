@@ -243,6 +243,13 @@ pre {
   color: #fff;
 }
 
+.button.button-play {
+  background: linear-gradient(135deg, #ff2200 0%, #ff7c39 100%);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(255, 34, 0, 0.38);
+  order: -1;
+}
+
 .button-secondary {
   background: rgba(62, 194, 255, 0.1);
   border-color: rgba(62, 194, 255, 0.26);

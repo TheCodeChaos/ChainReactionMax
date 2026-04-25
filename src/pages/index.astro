@@ -11,6 +11,7 @@ import {
   boardPresets,
   faqItems,
   featureCards,
+  playLink,
   quickFacts,
   siteConfig,
 } from '../data/site';
@@ -37,6 +38,9 @@ const posts = (await getCollection('blog'))
             and tense until the last burst.
           </p>
           <div class="button-row">
+            <a class="button button-play" href={playLink.href} target="_blank" rel="noreferrer">
+              Play game
+            </a>
             <a class="button" href={`${import.meta.env.BASE_URL}/faq`.replace(/\/\//g, '/')}>
               How to play
             </a>
