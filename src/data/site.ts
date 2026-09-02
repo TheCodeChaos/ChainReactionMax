@@ -127,6 +127,18 @@ export interface Developer {
 
 export const developers: readonly Developer[] = [
   {
+    id: "jitendra",
+    name: "Jitendra Verma",
+    initials: "JV",
+    avatar: "https://github.com/jitendravjh.png",
+    links: {
+      github: "https://github.com/jitendravjh",
+      website: "https://jitendravjh.in",
+      linkedin: "https://www.linkedin.com/in/jitendravjh/",
+      sponsor: "https://github.com/sponsors/jitendravjh?o=esb",
+    },
+  },
+  {
     id: "shravan",
     name: "Shravan Goswami",
     initials: "SG",
@@ -136,16 +148,6 @@ export const developers: readonly Developer[] = [
       website: "https://shravangoswami.com/",
       linkedin: "https://www.linkedin.com/in/shravangoswami/",
       sponsor: "https://github.com/sponsors/shravanngoswamii?o=esb",
-    },
-  },
-  {
-    id: "jitendra",
-    name: "Jitendra Verma",
-    initials: "JV",
-    avatar: "https://github.com/jitendravjh.png",
-    links: {
-      github: "https://github.com/jitendravjh",
-      website: "https://jitendravjh.github.io",
     },
   },
   {
@@ -161,8 +163,8 @@ export const developers: readonly Developer[] = [
 ];
 
 export const authors = {
-  shravan: developers[0],
-  jitendra: developers[1],
+  jitendra: developers[0],
+  shravan: developers[1],
   ayaan: developers[2],
 } as const;
 
