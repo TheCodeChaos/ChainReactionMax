@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { navLinks, siteConfig } from '../data/site';
+import { navLinks, siteConfig, storeLink } from '../data/site';
 ---
 
 <footer class="site-footer section" data-pagefind-ignore>
@@ -26,6 +26,13 @@ import { navLinks, siteConfig } from '../data/site';
               </a>
             ))
           }
+        </div>
+
+        <div>
+          <h3>Get the app</h3>
+          <a href={storeLink.href} target="_blank" rel="noreferrer">
+            <i class="fa-brands fa-google-play" aria-hidden="true"></i> {storeLink.shortLabel}
+          </a>
         </div>
 
         <div>

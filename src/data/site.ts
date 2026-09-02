@@ -21,6 +21,12 @@ export const playLink = {
   label: "Play",
 } as const;
 
+export const storeLink = {
+  href: "https://play.google.com/store/apps/details?id=com.shravangoswami.reaktor",
+  label: "Get it on Google Play",
+  shortLabel: "Google Play",
+} as const;
+
 export const featureCards = [
   {
     title: "Every move changes the map",

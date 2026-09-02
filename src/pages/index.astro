@@ -6,7 +6,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Layout from '../layouts/Layout.astro';
-import { boardPresets, featureCards, playLink, siteConfig } from '../data/site';
+import { boardPresets, featureCards, playLink, siteConfig, storeLink } from '../data/site';
 
 const posts = (await getCollection('blog'))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -33,10 +33,14 @@ const highlights = featureCards.slice(0, 3);
         </h1>
         <p class="lede">A fast board game for friends, or for you against the computer. Tense until the last burst.</p>
         <div class="button-row">
-          <a class="button button-play" href={playLink.href} target="_blank" rel="noreferrer">
+          <a class="button" href={storeLink.href} target="_blank" rel="noreferrer">
+            <i class="fa-brands fa-google-play" aria-hidden="true"></i>
+            {storeLink.label}
+          </a>
+          <a class="button-secondary" href={playLink.href} target="_blank" rel="noreferrer">
             Play game
           </a>
-          <a class="button" href={`${import.meta.env.BASE_URL}/support`.replace(/\/\//g, '/')}>
+          <a class="button-secondary" href={`${import.meta.env.BASE_URL}/support`.replace(/\/\//g, '/')}>
             How to play
           </a>
         </div>
