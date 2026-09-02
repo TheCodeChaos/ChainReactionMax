@@ -3,7 +3,7 @@ title: Hosting a Clean Match Session
 description: Multiplayer rounds feel smoother when setup decisions are locked early and the host flow stays consistent.
 pubDate: 2026-04-10
 authors:
-  - shravan
+  - jitendra
 tags:
   - Multiplayer
   - Setup

@@ -282,10 +282,6 @@ pre {
   color: var(--on-accent);
 }
 
-.button.button-play {
-  order: -1;
-}
-
 .button-secondary {
   background: var(--panel);
   color: var(--text);

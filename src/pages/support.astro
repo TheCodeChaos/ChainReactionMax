@@ -6,7 +6,7 @@ import Giscus from '../components/Giscus.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import Layout from '../layouts/Layout.astro';
-import { faqItems, siteConfig } from '../data/site';
+import { faqItems, siteConfig, storeLink } from '../data/site';
 ---
 
 <Layout title="Support" description="Answers, bug reports, and feedback for Reaktor.">
@@ -16,9 +16,14 @@ import { faqItems, siteConfig } from '../data/site';
     <main class="container support-page" data-pagefind-body>
       <section class="section support-hero" data-reveal>
         <h1 class="page-title">Support</h1>
-        <a class="report-link" href={siteConfig.issuesUrl} target="_blank" rel="noreferrer">
-          <Icon name="bug" size={16} /> Report a bug
-        </a>
+        <div class="support-links">
+          <a class="report-link store-link" href={storeLink.href} target="_blank" rel="noreferrer">
+            <i class="fa-brands fa-google-play" aria-hidden="true"></i> {storeLink.label}
+          </a>
+          <a class="report-link" href={siteConfig.issuesUrl} target="_blank" rel="noreferrer">
+            <Icon name="bug" size={16} /> Report a bug
+          </a>
+        </div>
       </section>
 
       <section class="section faq-body" data-reveal id="faq">
@@ -67,6 +72,20 @@ import { faqItems, siteConfig } from '../data/site';
 
   .report-link:hover {
     color: var(--text);
+  }
+
+  .support-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  /* The shared hover pushes colour to --text, which would be cream on yellow in
+     dark mode, so the accent pill keeps its own ink. */
+  .store-link,
+  .store-link:hover {
+    background: var(--accent);
+    color: var(--on-accent);
   }
 
   .faq-body,
